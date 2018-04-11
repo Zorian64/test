@@ -1,10 +1,14 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Created by Zorian Fedoryga on 11.04.2018.
  */
 public class Main {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         String testLine = "Java test";
         System.out.println("Reverse line process: " + reverseLine(testLine));
@@ -14,6 +18,8 @@ public class Main {
         int y = -3;
         System.out.println("Add two int numbers without arithmetic operations process: " + addNumbers(x, y));
 
+
+        System.out.println("Read file: " +  readFile("test.txt"));
     }
 
     private static String reverseLine(String line) {
@@ -45,6 +51,29 @@ public class Main {
             System.out.println("Something went wrong with the addNumbers process: " + e.getMessage());
         }
         return result;
+    }
+
+    private static String readFile(String file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        char characterSpliterator = ',';
+
+        try {
+            int r;
+            while ((r = reader.read()) != -1) {
+                char ch = (char) r;
+                if(ch != characterSpliterator){
+                    stringBuilder.append(ch);
+                }else{
+                    break;
+                }
+            }
+
+            return stringBuilder.toString();
+        } finally {
+            reader.close();
+        }
     }
 
 }
