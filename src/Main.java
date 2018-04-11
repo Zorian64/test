@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -18,8 +19,8 @@ public class Main {
         int y = -3;
         System.out.println("Add two int numbers without arithmetic operations process: " + addNumbers(x, y));
 
-
-        System.out.println("Read file: " +  readFile("test.txt"));
+        String filePath = "test.txt";
+        System.out.println("Read file: " +  readFile(filePath));
     }
 
     private static String reverseLine(String line) {
@@ -53,27 +54,26 @@ public class Main {
         return result;
     }
 
-    private static String readFile(String file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        char characterSpliterator = ',';
-
-        try {
+    private static String readFile(String file) {
+        String result = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            char characterSpliterator = ',';
+            StringBuilder stringBuilder = new StringBuilder();
             int r;
             while ((r = reader.read()) != -1) {
                 char ch = (char) r;
-                if(ch != characterSpliterator){
+                if (ch != characterSpliterator) {
                     stringBuilder.append(ch);
-                }else{
+                } else {
                     break;
                 }
             }
-
-            return stringBuilder.toString();
-        } finally {
-            reader.close();
+            result = stringBuilder.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return result;
     }
-
 }
